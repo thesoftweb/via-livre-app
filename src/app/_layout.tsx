@@ -35,6 +35,7 @@ export default function RootLayout() {
         headerShown: false,
       }}
     >
+      <Stack.Screen name="auth/login" />
       <Stack.Screen name="home" />
       <Stack.Screen name="index" />
     </Stack>

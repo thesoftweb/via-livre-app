@@ -1,12 +1,17 @@
 import { View, Text, StyleSheet } from "react-native";
-import { THEME } from "../theme/theme";
-import Button from "../components/ui/button";
+import { THEME } from "@/theme/theme";
+import Button from "@/components/ui/button";
+import { router } from "expo-router";
 
 export default function Screen() {
+  const handleLogin = () => {
+    console.log("navegar");
+    router.push("auth/login");
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Via Livre</Text>
-      <Button label="Acessar" onPress={() => {}} />
+      <Button disabled={false} label="Acessar" onPress={handleLogin} />
     </View>
   );
 }

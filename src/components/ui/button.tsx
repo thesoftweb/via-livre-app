@@ -1,17 +1,28 @@
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Pressable,
+  StyleSheet,
+  ActivityIndicator,
+} from "react-native";
 import React from "react";
-import { THEME } from "../../theme/theme";
+import { THEME } from "@/theme/theme";
 
 type Props = {
   label: string;
   onPress: () => void;
+  disabled: boolean;
 };
 
-export default function Button({ label, onPress }: Props) {
+export default function Button({ label, onPress, disabled }: Props) {
   return (
     <View style={styles.container}>
-      <Pressable onPress={onPress}>
-        <Text style={styles.label}>{label}</Text>
+      <Pressable onPress={onPress} disabled={disabled}>
+        {!disabled ? (
+          <Text style={styles.label}>{label}</Text>
+        ) : (
+          <ActivityIndicator />
+        )}
       </Pressable>
     </View>
   );
