@@ -38,6 +38,8 @@ export default function RootLayout() {
       <Stack.Screen name="auth/login" />
       <Stack.Screen name="home" />
       <Stack.Screen name="index" />
+      <Stack.Screen name="vehicles/create" />
+      <Stack.Screen name="vehicles/view" />
     </Stack>
   );
 }

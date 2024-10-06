@@ -2,6 +2,7 @@ import { supabase } from "@/lib/supabase";
 import { Vehicle } from "@/types/vehicle";
 
 export const getVehicles = async (user_id: string | undefined) => {
+  console.log(user_id);
   return await supabase
     .from("Vehicles")
     .select("user_id,description,plate")

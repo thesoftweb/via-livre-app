@@ -21,7 +21,7 @@ export default function Button({ label, onPress, disabled }: Props) {
         {!disabled ? (
           <Text style={styles.label}>{label}</Text>
         ) : (
-          <ActivityIndicator />
+          <ActivityIndicator color={"#fff"} size={"small"} />
         )}
       </Pressable>
     </View>

@@ -1,13 +1,6 @@
 import "react-native-url-polyfill/auto";
 import React, { useState } from "react";
-import {
-  Alert,
-  StyleSheet,
-  View,
-  Pressable,
-  TextInput,
-  Text,
-} from "react-native";
+import { Alert, StyleSheet, View, TextInput, Text } from "react-native";
 import { supabase } from "@/lib/supabase";
 import Button from "@/components/ui/button";
 import { THEME } from "@/theme/theme";
@@ -15,35 +8,61 @@ import { Link, router } from "expo-router";
 
 export default function Auth() {
   const [email, setEmail] = useState("");
+  const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  async function signInWithEmail() {
+  async function signUpWithEmail() {
     setLoading(true);
-
-    const { error } = await supabase.auth.signInWithPassword({
+    const {
+      data: { session },
+      error,
+    } = await supabase.auth.signUp({
       email: email,
       password: password,
+      options: {
+        data: {
+          full_name: fullName,
+        },
+      },
     });
 
     if (error) {
+      console.log(error?.message);
       Alert.alert(error.message);
+      return setLoading(false);
+    }
+
+    if (!session) {
+      Alert.alert("Please check your inbox for email verification!");
       setLoading(false);
     } else {
-      router.replace("home");
       setLoading(false);
+      router.replace("home");
     }
   }
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Via Livre</Text>
-      <Text style={styles.label}>Login</Text>
+      <Text style={styles.label}>Criar conta</Text>
+      <View style={styles.verticallySpaced}>
+        <Text style={styles.label}>Nome</Text>
+        <TextInput
+          onChangeText={(text) => setFullName(text)}
+          value={fullName}
+          placeholder="email@address.com"
+          autoCapitalize={"none"}
+          style={styles.input}
+        />
+      </View>
+
       <View style={styles.verticallySpaced}>
         <Text style={styles.label}>E-mail</Text>
         <TextInput
           onChangeText={(text) => setEmail(text)}
           value={email}
+          placeholder="email@address.com"
           autoCapitalize={"none"}
           style={styles.input}
         />
@@ -54,6 +73,7 @@ export default function Auth() {
           onChangeText={(text) => setPassword(text)}
           value={password}
           secureTextEntry={false}
+          placeholder="Password"
           autoCapitalize={"none"}
           style={styles.input}
         />
@@ -61,13 +81,14 @@ export default function Auth() {
       <View style={styles.verticallySpaced}>
         <Button
           disabled={loading}
-          onPress={() => signInWithEmail()}
-          label="Entrar"
+          onPress={() => signUpWithEmail()}
+          label="Cadastre-se"
         />
       </View>
+
       <View style={{ marginTop: 20 }}>
-        <Link href={"/auth/register"}>
-          <Text style={styles.label}>Não tem uma conta? Cadastre-se</Text>
+        <Link href={"/auth/login"}>
+          <Text style={styles.label}>Ja possuo conta, Faça Login</Text>
         </Link>
       </View>
     </View>
@@ -103,7 +124,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 8,
     borderRadius: 10,
-    color: "#444",
-    fontFamily: THEME.font.regular,
   },
 });

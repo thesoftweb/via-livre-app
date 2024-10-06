@@ -1,7 +1,6 @@
 import "react-native-url-polyfill/auto";
 
 import {
-  ActivityIndicator,
   FlatList,
   RefreshControl,
   ScrollView,
@@ -30,6 +29,7 @@ export default function Screen() {
     console.log("consultou supabase");
     setIsRefreshing(true);
     const { data, error } = await getVehicles(session?.user.id);
+    console.log(data);
     setVehicles(data);
     setIsRefreshing(false);
   }
@@ -51,9 +51,9 @@ export default function Screen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Meus Veiculos</Text>
-
       <ScrollView style={styles.vehiclesList}>
+        <Text style={styles.title}>Meus Veiculos</Text>
+
         <FlatList
           data={vehicles}
           keyExtractor={(item) => item.plate.toString()}
